@@ -1,0 +1,32 @@
+{% extends "main/principalview.html" %}
+{% load humanize %}
+{% block contenido %}
+{%if pedidos%}
+  <table id="pedidos" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+    <thead>
+      <tr>
+      <th>Producto</th>
+      <th>Precio</th>
+      <th>Fecha</th>
+      <th>Metodo de Envio</th>
+      <th>Cantidad</th>
+      <th>Estado</th>
+      </tr>
+    </thead>  
+    <tbody>
+      {%for p in pedidos%}
+        <tr>
+          <th>{{p.producto.nombre}}</th>
+          <th>{{p.producto.precio|intcomma}}</th>
+          <th>{{p.fecha}}</th>
+          <th>{{p.metodo_envio.nombre}}</th>
+          <th>{{p.cantidad}}</th>
+          <th>{{p.estado}}</th>    
+        </tr>
+    
+
+      {%endfor%}
+</tbody>
+</table>
+  {%endif%}
+{% endblock %}

@@ -1,0 +1,69 @@
+<form class="form-horizontal" action="/referido/enviar/invitacion" method="POST" id="referir">{% csrf_token %}
+
+	
+	<h3>Porfavor Escriba el correo de la persona</h3><br>
+	
+
+	<div class="control-group">
+		<label class="control-label" for="form-field-1">Email</label>
+
+		<div class="controls">
+			<input type="text" id="form-field-1" placeholder="Email" name="mail">
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="form-field-1">Nombre</label>
+
+		<div class="controls">
+			<input type="text" id="form-field-1" placeholder="Nombre" name="nombre">
+		</div>
+	</div>
+									
+
+	<div class="space-4"></div>
+
+									
+
+	<div class="form-actions">
+		<input class="btn btn-info" type="submit" value="Enviar Invitacion" />										
+	</div>
+
+</form>
+
+
+<script type="text/javascript">
+
+            function referidoValidate(){
+                	$('#referir').validate({
+                        rules :{
+                            mail : {
+                                required : true, //para validar campo vacio
+                                email    : true,  //para validar formato email
+                                minlength: 6,
+                            },
+                            nombre : {
+                                required : true, //para validar campo vacio
+                                
+
+                            },
+                           
+
+                        },
+                        messages : {
+                            mail : {
+                                required : "Debe ingresar el email",
+                                email    : "Debe ingresar un email valido",
+                                minlength : "Debe tener minimo 6 caracteres"
+                                
+                            },
+                            nombre : {
+                                required : "Debe ingresar el nombre",
+                                
+                            },
+
+                            
+                        }
+                  });
+                }    
+            
+        </script>

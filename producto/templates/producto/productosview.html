@@ -1,0 +1,111 @@
+{% load humanize %}
+	{%if productos%}
+		{%for p in productos%}
+			<div class="span3">
+				<div class="widget-box pricing-box">
+					<form class="productos" action="/productos/solicitar/pedido" method="post">{% csrf_token %}
+										<input name="producto" type="hidden" value="{{p.pk}}">
+										<div class="widget-header header-color-orange">
+											<h5 class="bigger lighter">{{p.nombre}}</h5>
+										</div>
+
+										<div class="widget-body">
+											<div class="widget-main">
+												<ul class="unstyled spaced2">
+													<li>
+														<img class="imagen text-center" src="{{p.imagen.url}}" >
+													</li>
+													<hr>
+													<li class="">
+														<h4>{{p.descripcion}}</h4>
+													</li>
+
+													
+
+													<li >
+														<span ><h4>Metodo de envio</h4> </span>
+													</li>
+
+													<li>
+														<select id="form-field-select-1" name="metodo_envio">
+															
+															{%for m in p.metodos_de_envio.all%}
+															</option><option value="{{m.pk}}">{{m.nombre}}
+															{%endfor%}
+															
+														</option></select>
+													</li>
+													<li >
+														<span ><h4>Cantidad <input type="text" name='cantidad' maxlength="4" /></h4> </span>
+													</li>
+
+													<li>
+														
+													</li>
+												</ul>
+
+												<hr>
+												<div class="price ">
+													<span class='label label-large label-inverse arrowed-in arrowed-in-right'>Precio {{p.precio |intcomma }} COP</span>
+													
+													
+												</div>
+											</div>
+
+											<div>
+												
+													<button class='btn btn-block btn-warning'>Solicitar</button>
+												
+											</div>
+										</div>
+									</div>
+					</form>
+			</div>
+
+			
+		{%endfor%}
+
+	{%else%}
+		<div class=" well" id="inf-pago">
+				<h3 class="text-error lighter smaller">No hay productos disponibles</h3>
+		</div>
+	{%endif%}
+	
+
+
+		
+
+</script>
+
+<style type="text/css">
+
+.imagen{
+	max-width: 200px !important;
+	max-height: 280px !important;
+}
+
+.margless{
+    margin:0 !important;
+}
+       
+@media (min-width: 320px) and (max-width:979px) {
+    /* one column */
+    .row-fluid .span3 {width:100%}
+    .row-fluid .span3 {margin-left:0;}  
+}
+ 
+@media (min-width: 980px) and (max-width:1409px) {
+    /* two columns, remove margin off every third span */
+   
+    .row-fluid .span3:nth-child(5n) {margin-left:0;}
+}
+ 
+@media (min-width: 1410px) {
+    /* three columns, .span4's natural width. remove margin off every 4th span */
+    .main .span3:nth-child(3n+4) {margin-left:0;}
+}
+       
+if (!Modernizr.nthchildn) {  
+  $('.span3:even').addClass('margless');
+}
+</style>

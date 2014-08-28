@@ -1,0 +1,390 @@
+{% extends "plantilla/index.html" %}
+{% load humanize %}
+{%block barra-nav%}
+<style type="text/css">
+  .logo{
+    margin-top: -10px !important;
+    height: 45px;
+  }
+  .top-bar{
+    height: 45px !important;
+    background-color: black !important; 
+  }
+</style>
+<div class="navbar">
+      <div class="top-bar navbar-inner">
+        <div class=" container-fluid">
+          <a href="/" class="brand">
+            <img class="logo" src="{{STATIC_URL}}recursos_comunes/ace/images/logo.png">
+          </a><!--/.brand-->
+
+          <ul class="nav ace-nav pull-right">
+            <li class="purple">
+              <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                <i class="icon-bell-alt icon-animated-bell"></i>
+                <span class="badge badge-important">{{n_notificaciones}}</span>
+              </a>
+
+              <ul id="" class="pull-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-closer">
+                <li class="nav-header">
+                  <i class="icon-warning-sign"></i>
+                  {{n_notificaciones}} Notificaciones
+                </li>
+
+                {%for ln in notificaciones%}
+                <li>
+                  <a class="pendientesview" id="{{ln.pk}}">
+                    <i class="btn btn-mini btn-primary icon-user"></i>
+                    <!--{{ln.mensaje|slice:":16"}}...-->
+                    <p>{{ln.emisor}}ha pasado a {{ln.mensaje}}</p>
+                  </a>
+                </li>
+                {%endfor%}
+
+                
+
+                <li>
+                  <a id="all_noti" class="link">
+                    Ver todas las Notificaciones
+                    <i class="icon-arrow-right"></i>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            
+
+            <li class="light-blue">
+              <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                <img class="nav-user-photo" src="{{STATIC_URL}}recursos_comunes/ace/avatars/user.jpg" alt="Jason's Photo" />
+                <span class="user-info">
+                  <small>Bienvenido,</small>
+                  {{u_nombre}}
+                </span>
+
+                <i class="icon-caret-down"></i>
+              </a>
+
+              <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer">
+                <li>
+                  <a href="#">
+                    <i class="icon-cog"></i>
+                    Settings
+                  </a>
+                </li>
+
+                <li>
+                  <a href="#" class="perfilview" id="{{u_nombre}}">
+                    <i class="icon-user"></i>
+                    Perfil
+                  </a>
+                </li>
+
+                <li class="divider"></li>
+
+                <li>
+                  <a href="/logout">
+                    <i class="icon-off"></i>
+                    Salir
+                  </a>
+                </li>
+              </ul>
+              </li>
+          </ul><!--/.ace-nav-->
+        </div><!--/.container-fluid-->
+      </div><!--/.navbar-inner-->
+    </div>
+{%endblock%}
+{% block nav %}
+	<ul class="nav nav-list">
+          
+
+          
+
+          <li>
+            <a href="#" class="dropdown-toggle">
+              <i class="icon-desktop"></i>
+              <span class="menu-text"> Mi Red</span>
+
+              <b class="arrow icon-angle-down"></b>
+            </a>
+
+            <ul class="submenu">
+              <li>
+                <a id= 'referir_persona' class='link' href="/referido/referir">
+                  <i class="icon-double-angle-right"></i>
+                  	Referir persona
+                </a>
+              </li>
+              <li>
+                <a  id= 'ver_referidos' class='link' href="/referido/ver/referidos">
+                  <i class="icon-double-angle-right"></i>
+                    Ver Referidos
+                </a>
+              </li>
+
+              
+
+              
+            </ul>
+          </li>
+           <li>
+            <a href="#" class="dropdown-toggle">
+              <i class="icon-desktop"></i>
+              <span class="menu-text">Productos</span>
+
+              <b class="arrow icon-angle-down"></b>
+            </a>
+
+            <ul class="submenu">
+              <li>
+                <a id='ver_productos' class='link' href="/productos/ver/categorias">
+                  <i class="icon-double-angle-right"></i>
+                    Ver Productos
+                </a>
+              </li>
+              <li>
+                <a id="mis_pedidos" class='link' href="/productos/ver/pedidos">
+                  <i class="icon-double-angle-right"></i>
+                    Mis Pedidos
+                </a>
+              </li>
+              <li>
+                <a  id="historial" class='link' href="/referido/ver/referidos">
+                  <i class="icon-double-angle-right"></i>
+                    Mi Historial De Compra
+                </a>
+              </li>
+
+              
+
+              
+            </ul>
+          </li>
+
+        </ul>
+
+{% endblock %}
+
+{% block contenido %}
+<div class=" well" >
+  {%if p_auspiciador%}
+  <h3 class="blue lighter smaller">Hola el usuario {{p_auspiciador}} te recomendo</h3>
+  {%else%}
+  <h3 class="grey lighter smaller">Hola, eres un usuario pionero felicitaciones</h3>
+  {%endif%}
+
+{%if membresia%}
+  
+  {%if membresia.estado|stringformat:"s" == "confirmado" %}
+  <h3 class="blue lighter smaller">Felicitaciones, eres miembro de mou</h3>  
+  {%endif%}
+
+  {%if membresia.estado == "solicitado" %}
+    <h3 class="blue lighter smaller">Se esta verificando tu recibo de pago, en menos de 12 horas seras activado</h3>
+  {%endif%}
+
+  {%else%}
+  <h3 class="blue lighter smaller">Usted aun no ha cancelado su membresia, porfavor suba su comprobante de pago aqui:</h3>
+  <form method="post" enctype="multipart/form-data" action="/membresia/subir/recibo">{% csrf_token %}
+  <div class="row-fluid">
+     <div class="span3">{{form.as_p}} </div>
+     <div class="span3"><button class="btn btn-block btn-success"><i class="icon-ok bigger-150"></i>  Enviar</button></div>
+  </form>   
+  </div>
+{%endif%}
+</div>
+  {%if p_referidos%}
+  <hr>
+  <h3>Tus referidos actualmente son los siguientes</h3>
+  <table id="referidos" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+    <thead>
+      <tr>
+      <th>Nombre</th>
+      <th>Correo</th>
+      <th>Estado</th>
+      </tr>
+    </thead>  
+    <tbody>
+      {%for p in p_referidos%}
+        <tr>
+          <th>{{p.nombre}}</th>
+          <th>{{p.correo}}</th>
+          {%if p.estado == False %}
+            <th>En espera</th>
+          {% else %}
+            <th>Confirmado</th>
+          {%endif%}
+
+          
+        </tr>
+    
+
+      {%endfor%}
+    </tbody>
+
+  </table>
+
+
+
+
+
+  {%endif%}
+  <h3 class="blue lighter smaller">{{mensaje}}</h3>
+  {% block contenidomain %}{% endblock %}
+{% endblock %}
+
+{% block script %}
+
+<script type="text/javascript">
+;
+  function validateForms(){
+      //referidoValidate();
+     
+
+
+  }
+  
+
+var contenido = $('#contenido');
+
+  
+function redNav(){}
+
+  redNav.prototype = {
+    referirOption : $('#referir_persona'),
+    ver_referidos : $('#ver_referidos'),
+    
+
+      iniciar : function(){
+
+      this.referirOption.click(function(){
+        //referidoValidate() se encuentra en referido/referirForm.html
+        contenido.load('/referido/referir', function (){referidoValidate()});    
+        return false;
+      });
+
+      this.ver_referidos.click(function(){
+        contenido.load('/referido/ver/referidos');    
+        return false;
+      });
+
+      
+
+
+    },  
+}
+
+function productosNav(){}
+
+  productosNav.prototype = {
+    ver_productos: $('#ver_productos'),
+    mis_pedidos: $('#mis_pedidos'),
+    historial : $('#historial'),
+
+      iniciar : function(){
+
+      this.ver_productos.click(function(){
+        contenido.load('/productos/ver/categorias', function(){
+          //obtenerCategoria() producto/categoriaview.html
+          obtenerCategoria();
+
+        }) ;    
+        return false;
+      });
+
+      this.mis_pedidos.click(function(){
+        //pagar producto/pedidosview
+        contenido.load('/productos/ver/pedidos', function(){
+          informacionPago();
+          
+        }) ;    
+        return false;
+      });
+
+      this.historial.click(function(){
+        contenido.load('/pago/ver/historial',function(){
+            informacionPago();
+        });    
+        return false;
+      });
+
+
+    },
+
+  }
+
+
+  function all_noti(){}
+
+all_noti.prototype = {
+    all_noti: $('#all_noti'),
+    
+
+      iniciar : function(){
+
+      this.all_noti.click(function(){
+        contenido.load('/notificaciones/todas');    
+        return false;
+      });
+
+
+    },  
+}
+
+
+function pendientesview(){}
+
+pendientesview.prototype = {
+  pendientesview: $('.pendientesview'),
+
+  iniciar : function(){
+
+    this.pendientesview.click(function(){
+      contenido.load('/notificaciones/pendientes?pendientesview='+$(this).attr('id'));
+      return false;
+    });
+  },
+}
+
+function perfilview(){}
+
+perfilview.prototype = {
+  perfilview: $('.perfilview'),
+
+  iniciar : function(){
+
+    this.perfilview.click(function(){
+      contenido.load('/usuario/perfil?perfilview='+$(this).attr('id'), function(){
+        editarperfil();
+      });
+      return false;
+    });
+  },
+}
+
+
+
+red = new redNav();
+red.iniciar();
+
+productos = new productosNav();
+productos.iniciar();
+
+all_noti = new all_noti();
+all_noti.iniciar();
+
+pendientesview = new pendientesview();
+pendientesview.iniciar();
+
+perfilview = new perfilview();
+perfilview.iniciar();
+  
+</script>
+<script src="assets/js/jquery.slimscroll.min.js"></script>
+
+
+{% block scriptmain %}
+{% endblock %}
+{% endblock %}
+

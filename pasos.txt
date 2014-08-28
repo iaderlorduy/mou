@@ -1,0 +1,36 @@
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install python-pip
+pip install django
+sudo apt-get install postgresql postgresql-client postgresql-contrib libpq-dev
+sudo su postgres -c psql
+
+Cambiar la contraseña del usuario administrador
+
+Ahora necesitamos establecer la contraseña del usuario administrador postgres. Teclea la siguiente línea en la terminal (cambia la palabra password por la contraseña que desees usar):
+sudo su postgres -c psql
+ALTER USER postgres WITH PASSWORD 'password';
+
+Eso altera la contraseña dentro de la base de datos, ahora necesitamos hacer lo mismo para el usuario Linux postgres:
+sudo passwd -d postgres
+sudo su postgres -c passwd
+
+reinstalar postgres si hay problema
+I too faced this problem with Hetzner and very annoying. Here is how I solved it Tip: Looked at some pg package scripts
+sudo apt-get purge postgresql* # ending * is important
+sudo apt-get install postgresql
+
+iniciar servidor postgres /etc/init.d/postgresql start , /etc/init.d/postgresql status, /etc/init.d/postgresql restart, /etc/init.d/postgresql stop
+
+permitir acceso remoto a la bd 
+http://blog.vortexbird.com/2012/03/26/habilitar-conexiones-remotas-en-postgresql/#.U7G2y_4s0WI
+
+nginx
+
+
+pip install gunicorn 
+gunicorn mou.wsgi:application --bind ip:puerto
+
+sudo apt-get build-dep python-psycopg2
+pip install psycopg2 
+pip install pillow

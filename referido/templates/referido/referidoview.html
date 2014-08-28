@@ -1,0 +1,7 @@
+{% extends "main/principalview.html" %}
+{% block contenidomain %}
+	{%for r in referidos%}
+		{{r.correo}}
+
+	{%endfor%}
+{% endblock %}

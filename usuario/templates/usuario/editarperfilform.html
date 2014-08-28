@@ -1,0 +1,38 @@
+</br>
+<div class="hr hr2 hr-double"></div>
+<form class="form-horizontal" action="/usuario/actualizar/" method="POST" id="editar">{% csrf_token %}
+<div class="row-fluid">
+															<div class="span4">
+																<div class="ace-file-input ace-file-multiple"><input type="file"><label data-title="Change avatar"><span data-title="No File ..."><i class="icon-picture"></i></span></label><a class="remove" href="#"><i class="icon-remove"></i></a></div>
+															</div>
+
+															<div class="vspace"></div>
+
+															<div class="span8">
+																<div class="control-group">
+																	<label class="control-label">Nombre</label>
+
+																	<div class="controls">
+																		<input class="input-small" type="text" id="" name="nombre">
+																	</div>
+																</div>
+																<div class="control-group">
+																	<label class="control-label">Direccion</label>
+
+																	<div class="controls">
+																		<input type="text" id="" name="direccion">
+																	</div>
+																</div>
+																<div class="control-group">
+																	<label class="control-label">Edad</label>
+
+																	<div class="controls">
+																		<input type="number" class="span2" id="" name="edad">
+																	</div>
+																</div>
+															</div>
+														</div>
+														
+		<input class="btn btn-info" type="submit" value="Actualizar" />										
+	
+</form>

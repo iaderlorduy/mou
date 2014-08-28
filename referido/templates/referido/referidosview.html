@@ -1,0 +1,31 @@
+  <div class=" well" id="inf-pago">
+                               <h3 class="text-error lighter smaller">Estos son tus referidos actuales</h3>
+                            </div>
+
+  {%if p_referidos%}
+  <table id="referidos" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+    <thead>
+      <tr>
+      <th>Nombre</th>
+      <th>Correo</th>
+      <th>Estado</th>
+      </tr>
+    </thead>  
+    <tbody>
+      {%for p in p_referidos%}
+        <tr>
+          <th>{{p.nombre}}</th>
+          <th>{{p.correo}}</th>
+          {%if p.estado == False %}
+            <th>En espera</th>
+          {% else %}
+            <th>Confirmado</th>
+          {%endif%}
+
+          
+        </tr>
+    
+
+      {%endfor%}
+
+  {%endif%}
